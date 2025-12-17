@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "lvgl_manager.h"
 
-// test memorizzazione token
+// test SSH
 
 void setup() {
   Serial.begin(115200);
