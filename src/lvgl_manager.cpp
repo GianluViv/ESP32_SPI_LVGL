@@ -22,7 +22,7 @@
 // ============================================================================
 // Configurazione Task LVGL
 // ============================================================================
-#define LVGL_TASK_STACK_SIZE 4096
+#define LVGL_TASK_STACK_SIZE 8192  // Aumentato per evitare stack overflow
 #define LVGL_TASK_PRIORITY 5
 #define LVGL_TASK_CORE 1
 #define LVGL_TICK_PERIOD_MS 5
@@ -87,9 +87,9 @@ static void lvgl_task(void* pvParameters) {
     while (true) {
         // Acquisisce il mutex prima di aggiornare LVGL
         if (xSemaphoreTake(lvgl_mutex, portMAX_DELAY) == pdTRUE) {
+            lv_tick_inc(LVGL_TICK_PERIOD_MS);  // Aggiorna il tick di LVGL
             lv_task_handler();  // Gestisce la GUI
             ui_tick();          // Aggiorna la UI
-            lv_tick_inc(LVGL_TICK_PERIOD_MS);  // Notifica a LVGL il tempo trascorso
             xSemaphoreGive(lvgl_mutex);
             }
 
